@@ -1,0 +1,23 @@
+{
+  "name": "organizer-service",
+  "version": "0.1.0",
+  "description": "Back-end service for organizer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nosthertus/organizer-service.git"
+  },
+  "author": "Oscar Reyes <nosthertus@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nosthertus/organizer-service/issues"
+  },
+  "homepage": "https://github.com/Nosthertus/organizer-service#readme",
+  "dependencies": {
+    "diet": "^0.16.0",
+    "mysql2": "^1.3.2"
+  }
+}
