@@ -1,0 +1,8 @@
+{
+	"development": {
+		"database": {
+			"user": "development",
+			"password": "nonroot3141"
+		}
+	}
+}
