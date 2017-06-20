@@ -59,10 +59,8 @@ register.post(($) => {
  */
 authenticate.post($ => {
 	indexController.authenticate($.body)
-		.then(success => {
-			$.data = {
-				success: success
-			};
+		.then(data => {
+			$.data = data;
 
 			$.json();
 		})

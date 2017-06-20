@@ -92,6 +92,12 @@ module.exports = function(sequelize, DataTypes) {
 		}
 	}
 
+	/**
+	 * Hashes the value @password for database storage
+	 * 
+	 * @param  {String}  password The password value for hashing
+	 * @return {Promise}          The result of the hashing
+	 */
 	function hashPassword(password){
 		return new Promise((resolve, reject) => {
 			bcrypt.hash(password, 10, (err, hash) => {
@@ -105,29 +111,46 @@ module.exports = function(sequelize, DataTypes) {
 		});
 	}
 
+	/**
+	 * Checks the authentication credentials of a user
+	 * Finds a user by it's name and compares the hashing values
+	 * 
+	 * @param  {Object}  credentials The user's credentials
+	 * @return {Promise}             The result of the user's authentication
+	 */
 	function login(credentials){
+		var result = {
+			success: false,
+			data: {}
+		};
+
+		// Find the user by the user's name
 		return this.findOne({
 			where: {
 				name: credentials.name
 			}
 		})
 		.then(record => {
+			// Hash the credentia's password if user was found
 			if(record){
 				return bcrypt.compare(credentials.password, record.password)
 					.then(success => {
 						if(success){
-							return true;
+							result.success = true;
+							result.data = record;
+							
+							return result;
 						}
 
-						return false;
+						return result;
 					});
 			}
 
 			else{
-				return false;
+				return result;
 			}
 		})
 	};
 
-	return model
+	return model;
 };

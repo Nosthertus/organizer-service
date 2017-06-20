@@ -1,4 +1,5 @@
 var debug = require("debug")("app:controllers:index");
+var Session = require("./../lib/Session");
 
 var UserController = $app.controller("UserController");
 
@@ -22,6 +23,40 @@ module.exports.register = body => {
 		});
 }
 
+/**
+ * Authenticates a user's credentials and creates a session
+ * if the authentication is successful
+ * 
+ * @param  {Object}  body The authentication credentials
+ * @return {Promise}      The result of the authentication process
+ */
 module.exports.authenticate = body => {
-	return UserController.authenticate(body);
+	var res = {
+		success: false,
+		token: ""
+	};
+
+	// Authenticate the user with the credentials
+	return UserController.authenticate(body)
+		.then(result => {
+			// Create the session if the authentication was successfull
+			if(result.success == true){
+				var session = new Session(result.data.id);
+
+				return session.start()
+					.then(() => {
+						// Store the session in the session collection
+						$sessions.storeSession(session);
+
+						res.success = true;
+						res.token = session.hash;
+						
+						return res;
+					});
+
+			}
+
+			// Return the intact result object if authentication was unsuccessfull
+			return res;
+		});
 };

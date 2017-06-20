@@ -1,14 +1,17 @@
-var diet      = require("diet");
-var dietCORS  = require("diet-cross-origin");
-var sequelize = require("sequelize");
-var debug     = require("debug")("app");
-var logger    = require("./lib/logger");
+var diet              = require("diet");
+var dietCORS          = require("diet-cross-origin");
+var sequelize         = require("sequelize");
+var debug             = require("debug")("app");
+var logger            = require("./lib/logger");
+var database          = require("./database");
+var SessionCollection = require("./lib/SessionCollection");
 
 //////////////////////////
 // Set global variables //
 //////////////////////////
 global.$app = diet({silent: true});
-global.$db  = require("./database");
+global.$db  = database;
+global.$sessions = new SessionCollection();
 
 $app.listen(80, null, () => {
 	debug("Service started");

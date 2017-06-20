@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Nosthertus/organizer-service#readme",
   "dependencies": {
     "bcrypt": "^1.0.2",
+    "bluebird": "^3.5.0",
     "debug": "^2.6.8",
     "diet": "^0.16.0",
     "diet-cross-origin": "^0.2.3",
