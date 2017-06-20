@@ -2,7 +2,8 @@ var debug = require("debug")("app:http:index");
 
 var indexController = $app.controller("indexController");
 
-var register = $app.resource("/register");
+var register     = $app.resource("/register");
+var authenticate = $app.resource("/authenticate");
 
 /**
  * The response object
@@ -49,6 +50,28 @@ register.post(($) => {
 				$.data = response;
 				$.json();
 			}
+		});
+});
+
+/*
+ * Authenticate route
+ * @alias login
+ */
+authenticate.post($ => {
+	indexController.authenticate($.body)
+		.then(success => {
+			$.data = {
+				success: success
+			};
+
+			$.json();
+		})
+		.catch(error => {
+			debug(error);
+
+			$.status(500);
+
+			$.end();
 		});
 });
 

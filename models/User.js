@@ -4,7 +4,7 @@ var bcrypt = require("bcrypt");
 var debug  = require("debug")("app:models:user");
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('user', {
+	var model = sequelize.define('user', {
 		id: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
@@ -52,6 +52,8 @@ module.exports = function(sequelize, DataTypes) {
 			beforeUpdate: beforeUpdate
 		}
 	});
+
+	model.login = login;
 
 	/**
 	 * Before insert record hook
@@ -102,4 +104,30 @@ module.exports = function(sequelize, DataTypes) {
 			});
 		});
 	}
+
+	function login(credentials){
+		return this.findOne({
+			where: {
+				name: credentials.name
+			}
+		})
+		.then(record => {
+			if(record){
+				return bcrypt.compare(credentials.password, record.password)
+					.then(success => {
+						if(success){
+							return true;
+						}
+
+						return false;
+					});
+			}
+
+			else{
+				return false;
+			}
+		})
+	};
+
+	return model
 };
