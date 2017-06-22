@@ -5,6 +5,7 @@ var debug             = require("debug")("app");
 var logger            = require("./lib/logger");
 var database          = require("./database");
 var SessionCollection = require("./lib/SessionCollection");
+var AccessControl     = require("./lib/AccessControl");
 
 //////////////////////////
 // Set global variables //
@@ -36,6 +37,8 @@ require("./routes");
 // in order to ensure that it detects all routes and sets the global
 // headers in all responses
 $app.header(CORS);
+
+$app.header(AccessControl.handler);
 
 ////////////////////////
 // Footer middlewares //
