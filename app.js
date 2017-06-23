@@ -1,3 +1,4 @@
+var Promise           = require("bluebird");
 var diet              = require("diet");
 var dietCORS          = require("diet-cross-origin");
 var sequelize         = require("sequelize");
@@ -10,8 +11,9 @@ var AccessControl     = require("./lib/AccessControl");
 //////////////////////////
 // Set global variables //
 //////////////////////////
-global.$app = diet({silent: true});
-global.$db  = database;
+global.Promise   = Promise;
+global.$app      = diet({silent: true});
+global.$db       = database;
 global.$sessions = new SessionCollection();
 
 $app.listen(80, null, () => {
