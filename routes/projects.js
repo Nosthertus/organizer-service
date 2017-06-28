@@ -53,9 +53,18 @@ detail.get($ => {
 			$.json();
 		})
 		.catch(error => {
-			debug(error);
+			if(typeof error.code !== "undefined"){
+				// Resource not found
+				if(error.code == "02"){
+					$.status(404);
+				}
+			}
 
-			$.status(500);
+			else{
+				debug(error);
+
+				$.status(500);
+			}
 
 			$.end();
 		});
@@ -85,9 +94,18 @@ detail.delete($ => {
 			$.json();
 		})
 		.catch(error => {
-			debug(error);
+			if(typeof error.code !== "undefined"){
+				// Resource not found
+				if(error.code == "02"){
+					$.status(404);
+				}
+			}
 
-			$.status(500);
+			else{
+				debug(error);
+
+				$.status(500);
+			}
 
 			$.end();
 		});

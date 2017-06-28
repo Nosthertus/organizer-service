@@ -37,7 +37,13 @@ module.exports.getAll = function(scope = "bash"){
 module.exports.get = function(id){
 	return model.findOne({
 		where: { id: id }
-	});
+	}).then((record) => {
+		if(!record){
+			throw new Errors.NotFoundError("Project");
+		}
+
+		return record;
+	})
 };
 
 module.exports.update = function(id, data){
