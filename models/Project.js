@@ -50,6 +50,13 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps: true,
 		createdAt: "create_time",
 		updatedAt: "update_time",
-		deletedAt: "delete_time"
+		deletedAt: "delete_time",
+		scopes: {
+			bash: {
+				attributes: {
+					exclude: ["delete_time", "update_time"]
+				}
+			}
+		}
 	});
 };

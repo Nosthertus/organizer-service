@@ -22,8 +22,14 @@ module.exports.create = function(body, session){
 		});
 };
 
-module.exports.getAll = function(){
-	return model.findAll({
+/**
+ * Gets the list of the projects from the database
+ * 
+ * @param  {String}  scope The scope to use in the model
+ * @return {Promise}       The result of the model search
+ */
+module.exports.getAll = function(scope = "bash"){
+	return model.scope(scope).findAll({
 		limit: 10
 	});
 };
