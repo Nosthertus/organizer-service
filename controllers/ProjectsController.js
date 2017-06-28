@@ -47,6 +47,23 @@ module.exports.update = function(id, data){
 		});
 };
 
+/**
+ * Deletes a project record from the database
+ * it should first call #this.get to find the record,
+ * if record was found then it proceeds to delete
+ * 
+ * @param  {Number}  id The id of the record
+ * @return {Promise}    The result of deleting the record in the database
+ */
+module.exports.delete = function(id){
+	return this.get(id)
+		.then(record => {
+			if(record){
+				return record.destroy();
+			}
+		})
+};
+
 module.exports.assign = function(userid, projectid, creator = false){
 	var body = {
 		"user_id": userid,

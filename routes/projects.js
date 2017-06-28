@@ -76,3 +76,19 @@ detail.put($ => {
 			$.end();
 		});
 });
+
+detail.delete($ => {
+	controller.delete($.params.id)
+		.then(data => {
+			$.data = data;
+
+			$.json();
+		})
+		.catch(error => {
+			debug(error);
+
+			$.status(500);
+
+			$.end();
+		});
+});

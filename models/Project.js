@@ -51,6 +51,11 @@ module.exports = function(sequelize, DataTypes) {
 		createdAt: "create_time",
 		updatedAt: "update_time",
 		deletedAt: "delete_time",
+		defaultScope: {
+			attributes: {
+				exclude: ["delete_time"]
+			}
+		},
 		scopes: {
 			bash: {
 				attributes: {
