@@ -89,9 +89,7 @@ detail.put($ => {
 detail.delete($ => {
 	controller.delete($.params.id)
 		.then(data => {
-			$.data = data;
-
-			$.json();
+			$.success();
 		})
 		.catch(error => {
 			if(typeof error.code !== "undefined"){
