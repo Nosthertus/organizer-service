@@ -1,9 +1,9 @@
 var Promise           = require("bluebird");
 var diet              = require("diet");
 var dietCORS          = require("diet-cross-origin");
-var sequelize         = require("sequelize");
 var debug             = require("debug")("app");
 var logger            = require("./lib/logger");
+var Mongoose          = require("mongoose");
 var database          = require("./database");
 var SessionCollection = require("./lib/SessionCollection");
 var AccessControl     = require("./lib/AccessControl");
@@ -13,8 +13,18 @@ var AccessControl     = require("./lib/AccessControl");
 //////////////////////////
 global.Promise   = Promise;
 global.$app      = diet({silent: true});
-global.$db       = database;
 global.$sessions = new SessionCollection();
+
+Mongoose.Promise = Promise;
+
+Mongoose.connect(database, {useMongoClient: true})
+	.then(() =>{
+		debug("Database connection success");
+	})
+	.catch(error => {
+		debug(error);
+	});
+
 
 $app.listen(80, null, () => {
 	debug("Service started");

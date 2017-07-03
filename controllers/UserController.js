@@ -1,6 +1,6 @@
 var debug = require("debug")("app:controllers:user");
 
-var model = $db.import(__dirname + "/../models/User.js");
+var model = $app.model("User");
 
 module.exports.create = data => {
 	return model.create(data);
