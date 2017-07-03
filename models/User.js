@@ -30,7 +30,8 @@ var User = new Schema({
 		default: Date.now
 	},
 	delete_time: {
-		type: Date
+		type: Date,
+		default: null
 	}
 });
 
@@ -94,6 +95,25 @@ User.pre("save", true, function(next, done){
 
 			done();
 		});
+});
+
+User.pre("update", true, function(next, done){
+	next();
+
+	this.update_time = Date.now;
+
+	if(this.isModified(this.password)){
+		hashPassword(this.password)
+			.then(hash => {
+				this.password = hash;
+
+				done();
+			})
+	}
+
+	else{
+		done();
+	}
 });
 
 /**
