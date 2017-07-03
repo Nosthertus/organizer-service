@@ -1,25 +1,16 @@
 var debug = require("debug")("app:controllers:projects");
 var Errors = require("./../lib/Errors");
 
-var model = $db.import(__dirname + "/../models/Project.js");
-var userRelation = $db.import(__dirname + "/../models/project_has_user.js");
+var model = $app.model("Project");
 
 module.exports.create = function(body, session){
 	if(session == null){
 		return Promise.reject(new Errors.AuthorizationError());
 	}
+
+	body.creator = session.userId;
 	
-	return model.create(body)
-		.then(record => {
-			return this.assign(session.userId, record.id, true)
-				.then(() => {
-					record.dataValues.user_id = session.userId;
-
-					debug(record.dataValues);
-
-					return record;
-				});
-		});
+	return model.create(body);
 };
 
 /**
