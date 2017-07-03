@@ -20,15 +20,11 @@ module.exports.create = function(body, session){
  * @return {Promise}       The result of the model search
  */
 module.exports.getAll = function(scope = "bash"){
-	return model.scope(scope).findAll({
-		limit: 10
-	});
+	return model.find({}, null, {limit: 10});
 };
 
 module.exports.get = function(id){
-	return model.findOne({
-		where: { id: id }
-	}).then((record) => {
+	return model.findById(id).then((record) => {
 		if(!record){
 			throw new Errors.NotFoundError("Project");
 		}
