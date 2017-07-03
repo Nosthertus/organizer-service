@@ -41,7 +41,7 @@ module.exports.authenticate = body => {
 		.then(result => {
 			// Create the session if the authentication was successfull
 			if(result.success == true){
-				var session = new Session(result.data.id);
+				var session = new Session(result.data._id);
 
 				return session.start()
 					.then(() => {
