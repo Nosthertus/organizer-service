@@ -34,15 +34,58 @@ var User = new Schema({
 	}
 });
 
+/*
+ * Instance methods
+ */
+
 User.method("delete", function(){
 	this.delete_time = new Date();
 
 	return this.save();
 });
 
-User.pre("save", true, function(next, done){
-	debug(this);
+/*
+ * Class functions
+ */
 
+/**
+ * Checks the authentication credentials of a user
+ * Finds a user by it's name and compares the hashing values
+ * 
+ * @param  {Object}  credentials The user's credentials
+ * @return {Promise}             The result of the user's authentication
+ */
+User.static("login", function(credentials){
+	var result = {
+		success: false,
+		data: {}
+	};
+
+	// Find the user by the user's name
+	return this.findOne({name: credentials.name})
+		.then(record => {
+			// Hash the credentia's password if user was found
+			if(record){
+				return bcrypt.compare(credentials.password, record.password)
+					.then(success => {
+						if(success){
+							result.success = true;
+							result.data = record;
+							
+							return result;
+						}
+
+						return result;
+					});
+			}
+
+			else{
+				return result;
+			}
+		});
+});
+
+User.pre("save", true, function(next, done){
 	next();
 
 	hashPassword(this.password)
