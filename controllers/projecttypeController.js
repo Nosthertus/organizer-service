@@ -1,7 +1,7 @@
 var debug = require("debug")("app:controllers:projecttype");
 
-var model = $db.import(__dirname  + "/../models/ProjectType.js");
+var model = $app.model("ProjectType");
 
 module.exports.getAll = () => {
-	return model.findAll();
+	return model.find();
 };

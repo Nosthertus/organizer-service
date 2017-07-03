@@ -1,22 +1,39 @@
-/* jshint indent: 2 */
+var debug = require("debug")("app:models:projecttype");
+var Mongoose = require("mongoose");
+var Schema = Mongoose.Schema;
 
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('projecttype', {
-		id: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false
-		}
-	}, {
-		tableName: 'projecttype',
-		timestamps: false,
-		defaultScope: {
-			order: sequelize.col("id")
-		}
-	});
-};
+var ProjectType = new Schema({
+	name: {
+		type: String,
+		required: true
+	},
+	create_time: {
+		type: Date,
+		default: Date.now
+	},
+	update_time: {
+		type: Date,
+		default: Date.now
+	},
+	delete_time: {
+		type: Date,
+		default: null
+	}
+}, {
+	// Set the default name of the collection
+	collection: "projecttype"
+});
+
+ProjectType.pre("update", function(next){
+	this.update_time = Date.now;
+
+	next();
+});
+
+ProjectType.method("delete", function(){
+	this.delete_time = Date.now;
+
+	return this.save();
+});
+
+module.exports = Mongoose.model("ProjectType", ProjectType);

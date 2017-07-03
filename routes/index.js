@@ -76,5 +76,5 @@ authenticate.post($ => {
 /*
  * Set all app routes
  */
-// require("./projecttype");
+require("./projecttype");
 // require("./projects");
