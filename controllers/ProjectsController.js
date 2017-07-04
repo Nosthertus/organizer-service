@@ -36,7 +36,10 @@ module.exports.get = function(id){
 module.exports.update = function(id, data){
 	return this.get(id)
 		.then(record => {
-			return record.update(data);
+			return record.update(data)
+				.then(data => {
+					return {passed: data.ok == 1 ? true : false};
+				})
 		});
 };
 
