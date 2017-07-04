@@ -55,7 +55,7 @@ module.exports.delete = function(id){
 	return this.get(id)
 		.then(record => {
 			if(record){
-				return record.destroy();
+				return record.delete();
 			}
 		})
 };
