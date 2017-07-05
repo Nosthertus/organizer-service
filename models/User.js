@@ -20,29 +20,7 @@ var User = new Schema({
 	},
 	email: {
 		type: String,
-	},
-	create_time: {
-		type: Date,
-		default: Date.now
-	},
-	update_time: {
-		type: Date,
-		default: Date.now
-	},
-	delete_time: {
-		type: Date,
-		default: null
 	}
-});
-
-/*
- * Instance methods
- */
-
-User.method("delete", function(){
-	this.delete_time = new Date();
-
-	return this.save();
 });
 
 /*
@@ -99,8 +77,6 @@ User.pre("save", true, function(next, done){
 
 User.pre("update", true, function(next, done){
 	next();
-
-	this.update_time = Date.now;
 
 	if(this.isModified(this.password)){
 		hashPassword(this.password)

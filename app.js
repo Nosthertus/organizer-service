@@ -7,6 +7,7 @@ var Mongoose          = require("mongoose");
 var database          = require("./database");
 var SessionCollection = require("./lib/SessionCollection");
 var AccessControl     = require("./lib/AccessControl");
+var modelTimestamps   = require("./lib/ModelTimestamps");
 
 //////////////////////////
 // Set global variables //
@@ -16,6 +17,8 @@ global.$app      = diet({silent: true});
 global.$sessions = new SessionCollection();
 
 Mongoose.Promise = Promise;
+
+Mongoose.plugin(modelTimestamps);
 
 Mongoose.connect(database, {useMongoClient: true})
 	.then(() =>{

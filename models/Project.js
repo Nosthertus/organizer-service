@@ -26,31 +26,7 @@ var Project = new Schema({
 		type: Number,
 		required: true,
 		max: [1, "Project's status is invalid"]
-	},
-	create_time: {
-		type: Date,
-		default: Date.now
-	},
-	update_time: {
-		type: Date,
-		default: Date.now
-	},
-	delete_time: {
-		type: Date,
-		default: null
 	}
-});
-
-Project.pre("update", function(next){
-	this.update_time = new Date();
-
-	next();
-});
-
-Project.method("delete", function(){
-	this.delete_time = new Date();
-
-	return this.save();
 });
 
 module.exports = Mongoose.model("Project", Project);
