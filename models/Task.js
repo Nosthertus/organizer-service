@@ -29,6 +29,10 @@ var Task = new Schema({
 		type: String,
 		required: false
 	},
+	creator: {
+		type: Schema.Types.ObjectId,
+		ref: "User"
+	},
 	assigned: [{
 		type: Schema.Types.ObjectId,
 		ref: "User"
