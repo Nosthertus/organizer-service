@@ -38,7 +38,7 @@ module.exports.update = function(id, data){
 		.then(record => {
 			return record.update(data)
 				.then(data => {
-					return {passed: data.ok == 1 ? true : false};
+					return {passed: (data.ok == 1 ? true : false)};
 				})
 		});
 };
@@ -58,14 +58,4 @@ module.exports.delete = function(id){
 				return record.delete();
 			}
 		})
-};
-
-module.exports.assign = function(userid, projectid, creator = false){
-	var body = {
-		"user_id": userid,
-		"project_id": projectid,
-		"creator": creator
-	};
-
-	return userRelation.create(body);
 };
