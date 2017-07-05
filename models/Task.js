@@ -1,45 +1,39 @@
-/* jshint indent: 2 */
+var debug    = require("debug")("app:models:task");
+var Mongoose = require("mongoose");
+var Schema   = Mongoose.Schema;
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('task', {
-    id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    project_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'project',
-        key: 'id'
-      }
-    },
-    name: {
-      type: DataTypes.STRING(40),
-      allowNull: false
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    create_time: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    update_time: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    delete_time: {
-      type: DataTypes.DATE,
-      allowNull: true
-    }
-  }, {
-    tableName: 'task'
-  });
-};
+var Comments = new Schema({
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true
+	},
+	text: {
+		type: String,
+		required: true
+	}
+});
+
+var Task = new Schema({
+	project_id: {
+		type: Schema.Types.ObjectId,
+		ref: "Project",
+		required: true
+	},
+	name: {
+		type: String,
+		required: true,
+		max: [40, "Task name is too long"]
+	},
+	description: {
+		type: String,
+		required: false
+	},
+	assigned: [{
+		type: Schema.Types.ObjectId,
+		ref: "User"
+	}],
+	comments: [Comments]
+});
+
+module.exports = Mongoose.model("Task", Task);
