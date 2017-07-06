@@ -3,6 +3,14 @@ var Errors = require("./../lib/Errors");
 
 var model = $app.model("Task");
 
+/**
+ * Creates a new project record in the database
+ * 
+ * @param  {Object}            body    The data to insert in the database
+ * @param  {Session}           session The session of the current request
+ * @throws {AuthorizationEror} If      The session was not found in the request
+ * @return {Promise}                   The resulf ot the project insertion
+ */
 module.exports.create = function(body, session){
 	if(session == null){
 		return Promise.reject(new Errors.AuthorizationError());
@@ -20,10 +28,18 @@ module.exports.create = function(body, session){
  * @return {Promise}       The result of the model search
  */
 module.exports.getAll = function(scope = "bash"){
-	return model.find({}, null, {limit: 10});
+	return model.findByScope(scope);
 };
 
-module.exports.get = function(id){
+/**
+ * Fetches a project record from the database
+ * 
+ * @param  {String}        id    The identifier of the project document
+ * @param  {String}        scope The scope to apply in the collection's search
+ * @throws {NotFoundError} If    There is no record found in the collection database
+ * @return {Promise}             The result of the search
+ */
+module.exports.get = function(id, scope = null){
 	return model.findById(id).then((record) => {
 		if(!record){
 			throw new Errors.NotFoundError("Project");
@@ -33,6 +49,14 @@ module.exports.get = function(id){
 	})
 };
 
+/**
+ * Updates a project record from the database
+ * This should call @get in order to retrieve the project before update
+ * 
+ * @param  {String}  id   The identifier of the project document
+ * @param  {Object}  data The body to set in the project's update
+ * @return {Promise}      The result of the update
+ */
 module.exports.update = function(id, data){
 	return this.get(id)
 		.then(record => {

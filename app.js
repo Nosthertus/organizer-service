@@ -8,6 +8,7 @@ var database          = require("./database");
 var SessionCollection = require("./lib/SessionCollection");
 var AccessControl     = require("./lib/AccessControl");
 var modelTimestamps   = require("./lib/ModelTimestamps");
+var modelScopes       = require("./lib/ModelScopes");
 
 //////////////////////////
 // Set global variables //
@@ -19,6 +20,7 @@ global.$sessions = new SessionCollection();
 Mongoose.Promise = Promise;
 
 Mongoose.plugin(modelTimestamps);
+Mongoose.plugin(modelScopes);
 
 Mongoose.connect(database, {useMongoClient: true})
 	.then(() =>{

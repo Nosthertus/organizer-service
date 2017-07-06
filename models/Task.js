@@ -38,6 +38,11 @@ var Task = new Schema({
 		ref: "User"
 	}],
 	comments: [Comments]
+}, {
+	scopes: {
+		bash: ["_id", "name", "creator", "update_time"],
+		detail: ["_id", "name", "project_id", "description", "creator", "assigned", "comments", "create_time", "update_time"]
+	}
 });
 
 module.exports = Mongoose.model("Task", Task);
