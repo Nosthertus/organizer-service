@@ -8,7 +8,7 @@ var database          = require("./database");
 var SessionCollection = require("./lib/SessionCollection");
 var AccessControl     = require("./lib/AccessControl");
 var modelTimestamps   = require("./lib/ModelTimestamps");
-var modelScopes       = require("./lib/ModelScopes");
+var modelScopes       = require("mongoose-scope");
 
 //////////////////////////
 // Set global variables //
