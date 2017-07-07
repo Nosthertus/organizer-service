@@ -27,6 +27,11 @@ var Project = new Schema({
 		required: true,
 		max: [1, "Project's status is invalid"]
 	}
+}, {
+	scopes: {
+		bash: ["_id", "projecttype", "creator", "name", "status", "update_time"],
+		detail: ["_id", "projecttype", "creator", "name", "description", "status", "create_time", "update_time"]
+	}
 });
 
 module.exports = Mongoose.model("Project", Project);
