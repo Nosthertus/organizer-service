@@ -27,38 +27,38 @@ module.exports.create = function(body, session){
  * @param  {String}  scope The scope to use in the model
  * @return {Promise}       The result of the model search
  */
-module.exports.getAll = function(scope = "bash"){
-	return model.findByScope(scope);
+module.exports.getAll = function(scope = "bash", criteria = {}){
+	return model.findByScope(scope, criteria);
 };
 
 /**
  * Fetches a project record from the database
  * 
- * @param  {String}        id    The identifier of the project document
- * @param  {String}        scope The scope to apply in the collection's search
- * @throws {NotFoundError} If    There is no record found in the collection database
- * @return {Promise}             The result of the search
+ * @param  {Object}        criteria The conditions of the project document search
+ * @param  {String}        scope    The scope to apply in the collection's search
+ * @throws {NotFoundError} If       There is no record found in the collection database
+ * @return {Promise}                The result of the search
  */
-module.exports.get = function(id, scope = null){
-	return model.findById(id).then((record) => {
+module.exports.get = function(criteria, scope = null){
+	return model.findOne(criteria).then((record) => {
 		if(!record){
 			throw new Errors.NotFoundError("Project");
 		}
 
 		return record;
-	})
+	});
 };
 
 /**
  * Updates a project record from the database
  * This should call @get in order to retrieve the project before update
  * 
- * @param  {String}  id   The identifier of the project document
- * @param  {Object}  data The body to set in the project's update
- * @return {Promise}      The result of the update
+ * @param  {Object}  criteria The conditions of the project document search
+ * @param  {Object}  data     The body to set in the project's update
+ * @return {Promise}          The result of the update
  */
-module.exports.update = function(id, data){
-	return this.get(id)
+module.exports.update = function(criteria, data){
+	return this.get(criteria)
 		.then(record => {
 			return record.update(data)
 				.then(data => {
@@ -72,11 +72,11 @@ module.exports.update = function(id, data){
  * it should first call #this.get to find the record,
  * if record was found then it proceeds to delete
  * 
- * @param  {Number}  id The id of the record
- * @return {Promise}    The result of deleting the record in the database
+ * @param  {Object}  criteria The condition of the record search
+ * @return {Promise}          The result of deleting the record in the database
  */
-module.exports.delete = function(id){
-	return this.get(id)
+module.exports.delete = function(criteria){
+	return this.get(criteria)
 		.then(record => {
 			if(record){
 				return record.delete();

@@ -1,8 +1,8 @@
 var debug = require("debug")("app:http:tasks");
 
 var controller = $app.controller("TasksController");
-var bash       = $app.resource("/tasks");
-var detail     = $app.resource("/tasks/:id");
+var bash       = $app.resource("/projects/:projectid/tasks");
+var detail     = $app.resource("/projects/:projectid/tasks/:id");
 
 bash.post($ => {
 	controller.create($.body, $.session)
@@ -30,7 +30,7 @@ bash.post($ => {
 });
 
 bash.get($ => {
-	controller.getAll()
+	controller.getAll("bash", {project_id: $.params.projectid})
 		.then(data => {
 			$.data = data;
 
@@ -46,7 +46,12 @@ bash.get($ => {
 });
 
 detail.get($ => {
-	controller.get($.params.id)
+	var criteria = {
+		project_id: $.params.projectid,
+		_id: $.params.id
+	};
+
+	controller.get(criteria)
 		.then(data => {
 			$.data = data;
 
@@ -71,7 +76,12 @@ detail.get($ => {
 });
 
 detail.put($ => {
-	controller.update($.params.id, $.body)
+	var criteria = {
+		project_id: $.params.projectid,
+		_id: $.params.id
+	};
+
+	controller.update(criteria, $.body)
 		.then(data => {
 			$.data = data;
 
@@ -87,7 +97,12 @@ detail.put($ => {
 });
 
 detail.delete($ => {
-	controller.delete($.params.id)
+	var criteria = {
+		project_id: $.params.projectid,
+		_id: $.params.id
+	};
+
+	controller.delete(criteria)
 		.then(data => {
 			$.success();
 		})
