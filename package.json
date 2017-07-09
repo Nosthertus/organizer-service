@@ -25,6 +25,6 @@
     "diet-cross-origin": "^0.2.3",
     "flutils": "^0.5.2",
     "mongoose": "^4.11.1",
-    "mongoose-scope": "^0.1.1"
+    "mongoose-scope": "^0.1.2"
   }
 }
