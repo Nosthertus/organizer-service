@@ -79,3 +79,4 @@ authenticate.post($ => {
 require("./projecttype");
 require("./projects");
 require("./tasks");
+require("./users");

@@ -21,6 +21,11 @@ var User = new Schema({
 	email: {
 		type: String,
 	}
+}, {
+	scopes: {
+		bash: ["_id", "name", "email", "update_time"],
+		detail: ["_id", "name", "email", "create_time", "update_time"],
+	}
 });
 
 /*
@@ -39,6 +44,7 @@ User.static("login", function(credentials){
 		success: false,
 		data: {}
 	};
+
 
 	// Find the user by the user's name
 	return this.findOne({name: credentials.name})
