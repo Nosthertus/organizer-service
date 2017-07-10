@@ -29,6 +29,11 @@ var Task = new Schema({
 		type: String,
 		required: false
 	},
+	status: {
+		type: Number,
+		required: true,
+		default: 0
+	},
 	creator: {
 		type: Schema.Types.ObjectId,
 		ref: "User"
