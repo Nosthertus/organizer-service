@@ -5,6 +5,8 @@ var bash       = $app.resource("/projects/:projectid/tasks");
 var detail     = $app.resource("/projects/:projectid/tasks/:id");
 
 bash.post($ => {
+	$.body.project_id = $.params.projectid;
+
 	controller.create($.body, $.session)
 		.then(data => {
 			$.data = data;

@@ -25,7 +25,7 @@ var Project = new Schema({
 	status: {
 		type: Number,
 		required: true,
-		max: [1, "Project's status is invalid"]
+		max: [4, "Project's status is invalid"]
 	}
 }, {
 	scopes: {
